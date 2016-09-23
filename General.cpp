@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "General.h"
-
+#include <string>
 using namespace std;
 
 General::General()
@@ -70,6 +70,36 @@ char** General::cBuilder()
   return map;
 }
 
+char** General::fBuilder(string file)
+{
+  ifstream infile;
+	infile.open(file);
+  string crows;
+  getline(infile, crows);
+  rows = stoi(crows);
+  string chols;
+  getline(infile, chols);
+  cols = stoi(chols);
+
+  char** map = new char*[rows];
+  for (int r = 0; r < rows; ++r){
+    map[r] = new char[cols];
+    for  (int c = 0; c < cols; ++c){
+      map[r][c] = ' ';
+    }
+  }
+
+  for(int r = 0; r < rows; ++r){
+    for(int c = 0; c < cols; ++c){
+      map[r][c] = infile.get();
+    }
+    infile.get();
+  }
+  infile.close();
+  return map;
+
+}
+
 void General::output(char** map)
 {
   for (int r = 0; r < rows; ++r)
@@ -85,7 +115,6 @@ void General::output(char** map)
 
 void General::output(char** map, ofstream & out)
 {
-  out << "success!";
   for (int r = 0; r < rows; ++r)
   {
     for (int c = 0; c < cols; ++c)
