@@ -1,9 +1,15 @@
 #include <iostream>
 #include <fstream>
+#include <unistd.h>
 #include "Classic.h"
 #include "General.h"
 
 using namespace std;
+
+Classic::Classic()
+{
+  cout << "Classic object created." << endl;
+}
 
 Classic::Classic(int myrows, int mycols)
 {
@@ -87,19 +93,16 @@ void Classic::god(char** map)
   int n;
   char t;
 
-  ofstream outfile;
-  string file = "";
-  cout << "Would you like to output to a file or to the console? (enter c or f): ";
+  cout << "Would you like to output to a file or to the console? (type console if you want to output to console, otherwise type the name of your output file): ";
   string answer;
   cin >> answer;
-  if (answer == "f")
-  {
-    cout << "What do you want to name your output file?: ";
-    cin >> file;
-    ofstream outfile(file);
-  }
+  ofstream outfile(answer);
 
-  outfile << "success";
+  string forEnter;
+  cout << "Would you like to delay generations by pressing enter, a set delay, or none? (enter enter, delay, or none): ";
+  string time;
+  cin >> time;
+
 
   char** newmap = new char*[rows];
   for (int i = 0; i < rows; ++i)
@@ -161,7 +164,7 @@ void Classic::god(char** map)
 			}
 		}
 
-    if (answer == "c")
+    if (answer == "console")
     {
       g.output(map);
     }
@@ -169,6 +172,15 @@ void Classic::god(char** map)
     {
       g.output(map, outfile);
     }
-    outfile.close();
+
+    if (time == "delay")
+    {
+      sleep(1);
+    }
+    else if (time == "enter")
+    {
+      cin.get();
+    }
   }
+  outfile.close();
 }

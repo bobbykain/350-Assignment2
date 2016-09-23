@@ -8,7 +8,7 @@ public:
     General();
     ~General();
     char** cBuilder();
-    void fBuilder();
+    char** fBuilder(string file);
     void fOutput();
     void output(char** map);
     void output(char** map, ofstream & outfile);
